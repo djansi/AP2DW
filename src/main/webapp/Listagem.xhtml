@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>Pagina de Listagem</title>
+</h:head>
+
+<h:body>	
+		
+	<h:form id="form1">
+			
+		<p:panel header="Finance: Pagina de Listagem " columns="2">
+		
+			<p:link outcome="index" value="Página de Cadastro"/>
+			
+						
+						<!-- BOTAO ESTATISTICA --> 			
+						<p:button value="Controle Financeiro" type="button" icon="pi pi-chart-line" onclick="PF('dlg1').show()" styleClass="rounded-button ui-button-flat" />
+				
+				
+							<!-- JANELA BOTAO ESTATISTICA --> 	
+							<p:dialog header="Estatistica" widgetVar="dlg1" minHeight="40" width="350" showEffect="fade" update="dt">
+								 	<p:outputLabel value="Valor Total de Receitas: #{lancamentoBean.totalReceitas}" />
+								    <br />
+								    <p:outputLabel value="Valor Total de Despesas: #{lancamentoBean.totalDespesas}" />
+								    <br />
+								    <p:outputLabel value="Saldo: #{lancamentoBean.saldo}" />
+								    <br />
+						    
+							</p:dialog>
+			
+			
+						<!-- TABELA DE LANÇAMENTOS -->
+						
+			<p:dataTable id="dt" value="#{lancamentoBean.list}" var="l" selection="#{lancamentoBean.lancamento}" selectionMode="single" rowKey="#{l.id}"
+				paginator="true" rows="5" paginatorPosition="bottom">	
+									
+									
+							<p:column headerText="Id">
+								<p:column>
+									<p:outputLabel value="#{l.id}"/>							
+								</p:column>										
+							</p:column>						
+							
+							<p:column headerText="Descricao">
+								<p:column>
+									<p:outputLabel value="#{l.descricao}"/>							
+								</p:column>										
+							</p:column>
+							
+							<p:column headerText="Valor">
+								<p:column>
+									<p:outputLabel value="#{l.valor}">
+									</p:outputLabel>					
+								</p:column>										
+							</p:column>
+							
+							<p:column headerText="Tipo">
+								<p:column>
+									<p:outputLabel value="#{l.tipo}"/>							
+								</p:column>										
+							</p:column>
+							
+							
+							<p:column headerText="Data">
+								<p:column>
+									<p:outputLabel value="#{l.dataCadastro}">
+									</p:outputLabel>					
+								</p:column>										
+							</p:column>
+							
+							
+							
+				
+				
+				
+				<!-- BOTOES DE INTERAÇÃO COM OS LANÇAMENTOS -->
+				<p:column headerText="Ações">
+					
+					
+					<!-- VISUALIZAR LANÇAMENTO -->
+					<p:column>
+						<p:commandButton icon="pi pi-search" oncomplete="PF('visualizar').show()" title="Visualizar" update="form_view"
+							style="border: 5px solid; 
+							border-radius: 50%;
+							background-color: #6A5ACD;
+							margin-right: 7px;
+							width: 3rem;
+							height: 3rem;">							
+							<f:setPropertyActionListener value="#{l}" target="#{lancamentoBean.lancamento}"/>								
+						</p:commandButton>															
+					</p:column>				
+					
+					
+					
+					
+					<!-- DELETAR LANÇAMENTO -->
+					<p:column>
+						<p:commandButton icon="pi pi-trash" title="Deletar" action="#{lancamentoBean.deletar}" oncomplete="PF('excluir').hide()" update="dt"	
+							style="border: 5px solid; 
+							border-radius: 50%; 
+							background-color: #e55039;
+							margin-right: 7px;
+							width: 3rem;
+							height: 3rem;">	
+							<f:setPropertyActionListener value="#{l}" target="#{lancamentoBean.lancamento}"/>							
+						</p:commandButton>														
+					</p:column>	
+													
+				</p:column>
+							
+		</p:dataTable>
+			
+			
+		
+		</p:panel>	
+		
+	</h:form>
+	
+	
+		
+		
+			<!-- EXIBIÇÃO DO BOTÃO VISUALIZAR OBJETOS -->
+		 
+			<p:dialog header="Visualizar Objeto" widgetVar="visualizar" >
+			<h:form id="form_view" >
+				<h:panelGrid columns="2" cellpadding="5" id="visualizar" style="width: 500px;">
+					
+					<p:outputLabel for="descricao" value="Descriçao: "/>
+					<p:inputText id="descricao" value="#{lancamentoBean.lancamento.descricao}" disabled="true" style="width: 300px;"/>
+					
+					<p:outputLabel for="tipo" value="tipo: "/>
+					<p:inputText id="tipo" value="#{lancamentoBean.lancamento.tipo}" disabled="true" style="width: 300px;"/>
+					
+					<p:outputLabel for="dataCadastro" value="Data Cadastro: "/>
+					<p:inputText id="dataCadastro" value="#{lancamentoBean.lancamento.dataCadastro}" disabled="true" style="width: 300px;"/>
+					
+															
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>		
+			
+		
+	
+	</h:body>	
+	
+	</html>
